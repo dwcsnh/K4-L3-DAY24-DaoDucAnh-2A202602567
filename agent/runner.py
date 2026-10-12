@@ -80,6 +80,8 @@ def handle(message: str, llm, log_dir: Path | None = None,
         if m:
             matched_ticket_ids.add(int(m.group(1)))
 
+    # Sanitize boundary: chỉ chuyển giao list[int] ticket_id sang Run B,
+    # hoàn toàn cô lập free-text của Run A khỏi quyết định truy cập dữ liệu khách hàng.
     combined_text = "\n\n".join(d.get("text", "") for d in docs)
     injected = llm.find_injection(combined_text)
 
